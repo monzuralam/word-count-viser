@@ -33,3 +33,15 @@ function word_count_viser_textdomain(){
 }
 add_action('plugins_loaded','word_count_viser_textdomain');
 
+/**
+ * Word Count
+ */
+
+ function word_count_viser_count($content){
+    $strip_content = strip_tags($content);
+    $word_number = str_word_count($strip_content);
+    $label = __('Total Word Number');
+    $content .= sprintf('<p>%s : %s</p>',$label,$word_number);
+    return $content;
+ }
+ add_filter('the_content','word_count_viser_count');
