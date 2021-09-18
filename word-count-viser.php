@@ -47,3 +47,22 @@ add_action('plugins_loaded','word_count_viser_textdomain');
     return $content;
  }
  add_filter('the_content','word_count_viser_count');
+
+/**
+ * Reading Time
+ */
+function word_count_viser_readingtime($content){
+    $strip_content = strip_tags($content);
+    $word_num = str_word_count($strip_content);
+    $reading_minutes = floor( $word_num / 200 );
+    $reading_seconds = floor( $word_num % 200 / ( 200 / 60 ));
+    $is_visible = apply_filters('word_count_viser_readingtime_visible',1);
+    if($is_visible){
+        $label = __('Total Reading Time');
+        $label = apply_filters('word_count_readingtime_label',$label);
+        $tag = apply_filters('word_count_viser_readingtime_tag','h6');
+        $content .= sprintf('<%s>%s : %s Minutes %s Seconds</%s>',$tag,$label,$reading_minutes,$reading_seconds,$tag);
+    }
+    return $content;
+}
+add_filter('the_content','word_count_viser_readingtime');
