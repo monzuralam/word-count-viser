@@ -41,7 +41,9 @@ add_action('plugins_loaded','word_count_viser_textdomain');
     $strip_content = strip_tags($content);
     $word_number = str_word_count($strip_content);
     $label = __('Total Word Number');
-    $content .= sprintf('<p>%s : %s</p>',$label,$word_number);
+    $label = apply_filters('word_count_heading',$label);
+    $tag = apply_filters('word_count_heading_tag','h2');
+    $content .= sprintf('<%s>%s : %s</%s>',$tag,$label,$word_number,$tag);
     return $content;
  }
  add_filter('the_content','word_count_viser_count');
